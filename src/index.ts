@@ -6,9 +6,6 @@ import { connectDB } from './config/database';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Conectar a Base de Datos (sin detener el servidor si falla)
-connectDB().catch(err => console.error('⚠️ La base de datos no conectó, pero el servidor sigue activo:', err));
-
 // Configuración básica
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public'))); // Carpeta para archivos públicos
@@ -16,13 +13,21 @@ app.use(express.static(path.join(__dirname, 'public'))); // Carpeta para archivo
 // Rutas
 app.use('/api', indexRoutes);
 
-// Iniciar servidor
-app.listen(PORT, () => {
-    console.log(`
-    ################################################
-    🛡️  Servidor de Mongolia-FC activo
-    ⚽  Puerto: ${PORT}
-    🔗  http://localhost:${PORT}
-    ################################################
-    `);
-});
+const startServer = async () => {
+    try {
+        await connectDB();
+        app.listen(PORT, () => {
+            console.log(`
+            ################################################
+            🛡️  Servidor de Mongolia-FC activo
+            ⚽  Puerto: ${PORT}
+            🔗  http://localhost:${PORT}
+            ################################################
+            `);
+        });
+    } catch (error) {
+        console.error('Error fatal al iniciar:', error);
+    }
+};
+
+startServer();
