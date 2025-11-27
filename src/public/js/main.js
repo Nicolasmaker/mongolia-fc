@@ -12,6 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
         adminLi.innerHTML = '<a href="matches.html" style="color: var(--accent-color);">Admin Partidos</a>';
         navLinksContainer.appendChild(adminLi);
 
+        const newsAdminLi = document.createElement('li');
+        newsAdminLi.innerHTML = '<a href="news-admin.html" style="color: var(--accent-color);">Admin Noticias</a>';
+        navLinksContainer.appendChild(newsAdminLi);
+
         const logoutLi = document.createElement('li');
         logoutLi.innerHTML = `<a href="#" id="logoutBtn" style="color: #ff4444;">Salir (${userName})</a>`;
         navLinksContainer.appendChild(logoutLi);
@@ -27,6 +31,35 @@ document.addEventListener('DOMContentLoaded', () => {
         const loginLi = document.createElement('li');
         loginLi.innerHTML = '<a href="login.html" style="border: 1px solid var(--accent-color); padding: 5px 15px; border-radius: 20px;">Login</a>';
         navLinksContainer.appendChild(loginLi);
+    }
+
+    // Cargar Noticias en Home
+    const newsGrid = document.getElementById('news-grid');
+    if (newsGrid) {
+        fetch('/api/news')
+            .then(res => res.json())
+            .then(news => {
+                if (news.length === 0) {
+                    newsGrid.innerHTML = '<p style="text-align: center; width: 100%;">No hay noticias recientes.</p>';
+                    return;
+                }
+                
+                newsGrid.innerHTML = news.map(item => `
+                    <div class="card">
+                        ${item.imageUrl ? `
+                        <div class="card-img-container">
+                            <img src="${item.imageUrl}" alt="${item.title}" class="card-img" onerror="this.style.display='none'">
+                        </div>` : ''}
+                        <h3>${item.title}</h3>
+                        <p>${item.content}</p>
+                        <small style="color: #666; display: block; margin-top: 1rem;">${new Date(item.date).toLocaleDateString()}</small>
+                    </div>
+                `).join('');
+            })
+            .catch(err => {
+                console.error('Error cargando noticias:', err);
+                newsGrid.innerHTML = '<p>Error al cargar noticias.</p>';
+            });
     }
 
     // Mobile Menu Logic
