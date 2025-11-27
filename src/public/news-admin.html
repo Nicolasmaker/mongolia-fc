@@ -106,10 +106,16 @@
                         <input type="text" id="title" required>
                     </div>
                     <div class="form-group">
-                        <label>Imagen</label>
+                        <label>Imagen 1</label>
                         <input type="file" id="imageFile" accept="image/*">
                         <input type="hidden" id="imageUrl">
                         <div id="preview" style="margin-top: 10px; max-width: 200px;"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Imagen 2 (Opcional)</label>
+                        <input type="file" id="imageFile2" accept="image/*">
+                        <input type="hidden" id="imageUrl2">
+                        <div id="preview2" style="margin-top: 10px; max-width: 200px;"></div>
                     </div>
                     <div class="form-group">
                         <label>Contenido</label>
@@ -155,17 +161,22 @@
         }
 
         // Convertir imagen a Base64
-        document.getElementById('imageFile').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('imageUrl').value = e.target.result;
-                    document.getElementById('preview').innerHTML = `<img src="${e.target.result}" style="width: 100%; border-radius: 5px;">`;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+        function setupImageUpload(inputId, hiddenId, previewId) {
+            document.getElementById(inputId).addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById(hiddenId).value = e.target.result;
+                        document.getElementById(previewId).innerHTML = `<img src="${e.target.result}" style="width: 100%; border-radius: 5px;">`;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        setupImageUpload('imageFile', 'imageUrl', 'preview');
+        setupImageUpload('imageFile2', 'imageUrl2', 'preview2');
 
         // Publicar noticia
         document.getElementById('newsForm').addEventListener('submit', async (e) => {
@@ -173,9 +184,10 @@
             const title = document.getElementById('title').value;
             const content = document.getElementById('content').value;
             const imageUrl = document.getElementById('imageUrl').value;
+            const imageUrl2 = document.getElementById('imageUrl2').value;
 
             if (!imageUrl) {
-                alert('Por favor selecciona una imagen');
+                alert('Por favor selecciona al menos la primera imagen');
                 return;
             }
 
@@ -186,7 +198,7 @@
                         'Content-Type': 'application/json',
                         'Authorization': token
                     },
-                    body: JSON.stringify({ title, content, imageUrl })
+                    body: JSON.stringify({ title, content, imageUrl, imageUrl2 })
                 });
 
                 if (response.ok) {

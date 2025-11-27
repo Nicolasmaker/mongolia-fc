@@ -12,8 +12,8 @@ export const getNews = async (req: Request, res: Response) => {
 
 export const createNews = async (req: Request, res: Response) => {
     try {
-        const { title, content, imageUrl } = req.body;
-        const newNews = new News({ title, content, imageUrl });
+        const { title, content, imageUrl, imageUrl2 } = req.body;
+        const newNews = new News({ title, content, imageUrl, imageUrl2 });
         await newNews.save();
         res.status(201).json(newNews);
     } catch (error) {

@@ -4,6 +4,7 @@ export interface INews extends Document {
     title: string;
     content: string;
     imageUrl: string;
+    imageUrl2?: string;
     date: Date;
 }
 
@@ -11,6 +12,7 @@ const NewsSchema: Schema = new Schema({
     title: { type: String, required: true },
     content: { type: String, required: true },
     imageUrl: { type: String, required: false },
+    imageUrl2: { type: String, required: false },
     date: { type: Date, default: Date.now }
 });
 

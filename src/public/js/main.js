@@ -46,10 +46,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 newsGrid.innerHTML = news.map(item => `
                     <div class="card">
-                        ${item.imageUrl ? `
-                        <div class="card-img-container">
-                            <img src="${item.imageUrl}" alt="${item.title}" class="card-img" onerror="this.style.display='none'">
-                        </div>` : ''}
+                        <div class="card-img-container" style="${item.imageUrl2 ? 'display: grid; grid-template-columns: 1fr 1fr; gap: 10px;' : ''}">
+                            ${item.imageUrl ? `
+                            <img src="${item.imageUrl}" alt="${item.title}" class="news-img" 
+                                 style="width: 100%; height: 150px; object-fit: cover; border-radius: 10px; cursor: pointer;" 
+                                 onclick="openModal(this)">` : ''}
+                            ${item.imageUrl2 ? `
+                            <img src="${item.imageUrl2}" alt="${item.title}" class="news-img" 
+                                 style="width: 100%; height: 150px; object-fit: cover; border-radius: 10px; cursor: pointer;" 
+                                 onclick="openModal(this)">` : ''}
+                        </div>
                         <h3>${item.title}</h3>
                         <p>${item.content}</p>
                         <small style="color: #666; display: block; margin-top: 1rem;">${new Date(item.date).toLocaleDateString()}</small>
@@ -85,14 +91,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const captionText = document.getElementById("caption");
     const closeBtn = document.getElementsByClassName("close")[0];
 
-    // Seleccionar todas las imágenes ampliables (tarjetas y galería about)
+    // Función global para abrir modal (usada en noticias dinámicas)
+    window.openModal = function(element) {
+        modal.style.display = "block";
+        modalImg.src = element.src;
+        captionText.innerHTML = element.alt;
+    }
+
+    // Seleccionar todas las imágenes ampliables estáticas (tarjetas y galería about)
     const images = document.querySelectorAll('.card-img, .about-img');
 
     images.forEach(img => {
         img.addEventListener('click', function() {
-            modal.style.display = "block";
-            modalImg.src = this.src;
-            captionText.innerHTML = this.alt;
+            window.openModal(this);
         });
         // Añadir cursor pointer para indicar que es clicable
         img.style.cursor = "pointer";
