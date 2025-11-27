@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
 
     if (newsGrid) {
-        // Lógica para Home: Solo la última noticia
+        // Lógica para Home: Mostrar las últimas 3 noticias
         fetch('/api/news')
             .then(res => res.json())
             .then(news => {
@@ -71,11 +71,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     newsGrid.innerHTML = '<p style="text-align: center; width: 100%;">No hay noticias recientes.</p>';
                     return;
                 }
-                const latestNews = news[0];
-                // Renderizar tarjeta clickeable
-                newsGrid.innerHTML = renderCard(latestNews, false, true);
                 
-                if (news.length > 1) {
+                const latest3 = news.slice(0, 3);
+                newsGrid.innerHTML = latest3.map(item => renderCard(item, false, true)).join('');
+                
+                if (news.length > 3) {
                     const viewMoreBtn = document.createElement('div');
                     viewMoreBtn.style.textAlign = 'center';
                     viewMoreBtn.style.marginTop = '1rem';
