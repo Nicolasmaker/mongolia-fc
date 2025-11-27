@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merchandising - Mongolia FC</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        .merch-card {
+            background: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            text-align: center;
+            padding-bottom: 1.5rem;
+        }
+        .merch-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+        .merch-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            background-color: #252525;
+        }
+        .merch-info {
+            padding: 1.5rem;
+        }
+        .merch-title {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        .merch-price {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .btn-buy {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .btn-buy:hover {
+            background-color: #d92042;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">MONGOLIA FC</a>
+            
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="players.html">Equipo</a></li>
+                <li><a href="news.html">Noticias</a></li>
+                <li><a href="matchday.html">Matchday</a></li>
+                <li><a href="donations.html">Rifas y Donaciones</a></li>
+                <li><a href="merchandising.html" style="color: var(--accent-color);">Merchandising</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero" style="height: 40vh;">
+        <div class="hero-content">
+            <h1>MERCHANDISING</h1>
+            <p>Vístete con los colores del campeón (moral).</p>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <div class="cards-grid">
+                <!-- Producto 1 -->
+                <div class="merch-card">
+                    <img src="https://placehold.co/600x600?text=Camiseta+Oficial" alt="Camiseta Oficial" class="merch-img">
+                    <div class="merch-info">
+                        <h3 class="merch-title">Camiseta Oficial 2025</h3>
+                        <span class="merch-price">$25.000</span>
+                        <p style="color: #ccc; margin-bottom: 1rem;">La piel del Mongolia. Incluye manchas de pasto sintético (opcional).</p>
+                        <a href="#" class="btn-buy">Comprar</a>
+                    </div>
+                </div>
+
+                <!-- Producto 2 -->
+                <div class="merch-card">
+                    <img src="https://placehold.co/600x600?text=Jockey" alt="Jockey" class="merch-img">
+                    <div class="merch-info">
+                        <h3 class="merch-title">Jockey Mongolia</h3>
+                        <span class="merch-price">$10.000</span>
+                        <p style="color: #ccc; margin-bottom: 1rem;">Para protegerte del sol mientras ves como perdemos.</p>
+                        <a href="#" class="btn-buy">Comprar</a>
+                    </div>
+                </div>
+
+                <!-- Producto 3 -->
+                <div class="merch-card">
+                    <img src="https://placehold.co/600x600?text=Vaso+Schopero" alt="Vaso Schopero" class="merch-img">
+                    <div class="merch-info">
+                        <h3 class="merch-title">Vaso Schopero</h3>
+                        <span class="merch-price">$8.000</span>
+                        <p style="color: #ccc; margin-bottom: 1rem;">La herramienta más importante del equipo.</p>
+                        <a href="#" class="btn-buy">Comprar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Mongolia FC. Todos los derechos reservados.</p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">
+                <a href="donations.html" style="color: #666; text-decoration: none; margin-right: 10px;">Rifas y Donaciones</a>
+                <a href="merchandising.html" style="color: #666; text-decoration: none;">Merchandising</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
