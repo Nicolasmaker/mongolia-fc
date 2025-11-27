@@ -112,6 +112,23 @@
             color: white;
             text-decoration: underline;
         }
+
+        /* Responsive adjustments for mobile */
+        @media (max-width: 600px) {
+            .players-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 1rem;
+            }
+            .player-img {
+                height: 200px;
+            }
+            .player-name {
+                font-size: 0.9rem;
+            }
+            .player-number {
+                font-size: 1.2rem;
+            }
+        }
     </style>
 </head>
 <body>
