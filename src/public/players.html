@@ -29,10 +29,49 @@
             width: 100%;
             height: 300px;
             object-fit: cover;
+            object-position: center;
             background-color: #252525;
+            cursor: pointer;
         }
         .player-info {
             padding: 1.5rem;
+        }
+        /* Lightbox styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            padding-top: 60px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+        .lightbox-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            max-height: 80vh;
+            object-fit: contain;
+        }
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
         }
         .player-number {
             color: var(--accent-color);
@@ -79,168 +118,168 @@
             <div class="players-grid">
                 <!-- Jugadores -->
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=MK" alt="MK" class="player-img">
+                    <img src="img/players/MK.png" alt="MK" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">MK</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Gollo" alt="Gollo" class="player-img">
+                    <img src="img/players/Gollo.png" alt="Gollo" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Gollo</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Koala" alt="Koala" class="player-img">
+                    <img src="https://placehold.co/300x400?text=Koala" alt="Koala" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Koala</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=M!" alt="M!" class="player-img">
+                    <img src="https://placehold.co/300x400?text=M!" alt="M!" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">M!</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Peter" alt="Peter" class="player-img">
+                    <img src="img/players/Peter.png" alt="Peter" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Peter</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Seba" alt="Seba" class="player-img">
+                    <img src="https://placehold.co/300x400?text=Seba" alt="Seba" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Seba</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Koreano" alt="Koreano" class="player-img">
+                    <img src="img/players/Koreano.png" alt="Koreano" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Koreano</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Cristian" alt="Cristian" class="player-img">
+                    <img src="https://placehold.co/300x400?text=Cristian" alt="Cristian" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Cristian</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Mayk" alt="Mayk" class="player-img">
+                    <img src="https://placehold.co/300x400?text=Mayk" alt="Mayk" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Mayk</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Victor" alt="Victor" class="player-img">
+                    <img src="https://placehold.co/300x400?text=Victor" alt="Victor" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Victor</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Pedrini" alt="Pedrini" class="player-img">
+                    <img src="https://placehold.co/300x400?text=Pedrini" alt="Pedrini" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Pedrini</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Pato" alt="Pato" class="player-img">
+                    <img src="img/players/Pato.png" alt="Pato" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Pato</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Pancho" alt="Pancho" class="player-img">
+                    <img src="img/players/Pancho.png" alt="Pancho" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Pancho</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Chatolucho" alt="Chatolucho" class="player-img">
+                    <img src="img/players/Chatolucho.png" alt="Chatolucho" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Chatolucho</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Francisco" alt="Francisco" class="player-img">
+                    <img src="https://placehold.co/300x400?text=Francisco" alt="Francisco" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Francisco</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Cris+Carcamo" alt="Cris Carcamo" class="player-img">
+                    <img src="https://placehold.co/300x400?text=Cris+Carcamo" alt="Cris Carcamo" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Cris Carcamo</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Nazario" alt="Nazario" class="player-img">
+                    <img src="img/players/Nazario.png" alt="Nazario" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Nazario</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Claudio" alt="Claudio" class="player-img">
+                    <img src="https://placehold.co/300x400?text=Claudio" alt="Claudio" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Claudio</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Jean" alt="Jean" class="player-img">
+                    <img src="https://placehold.co/300x400?text=Jean" alt="Jean" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Jean</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Itachi" alt="Itachi" class="player-img">
+                    <img src="img/players/Itachi.png" alt="Itachi" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Itachi</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Presi" alt="Presi" class="player-img">
+                    <img src="img/players/Presi.png" alt="Presi" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Presi</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Yuri" alt="Yuri" class="player-img">
+                    <img src="img/players/Yuri.png" alt="Yuri" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Yuri</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Fabian" alt="Fabian" class="player-img">
+                    <img src="img/players/Fabian.png" alt="Fabian" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Fabian</h3>
                         <p class="player-position">Jugador</p>
                     </div>
                 </div>
                 <div class="player-card">
-                    <img src="https://placehold.co/300x400?text=Potoko" alt="Potoko" class="player-img">
+                    <img src="img/players/Potoko.png" alt="Potoko" class="player-img" onclick="openLightbox(this)">
                     <div class="player-info">
                         <h3 class="player-name">Potoko</h3>
                         <p class="player-position">Jugador</p>
@@ -257,5 +296,31 @@
     </footer>
 
     <script src="js/main.js"></script>
+
+    <!-- Lightbox Modal -->
+    <div id="myLightbox" class="lightbox">
+        <span class="close" onclick="closeLightbox()">&times;</span>
+        <img class="lightbox-content" id="img01">
+    </div>
+
+    <script>
+        function openLightbox(element) {
+            var lightbox = document.getElementById("myLightbox");
+            var lightboxImg = document.getElementById("img01");
+            lightbox.style.display = "block";
+            lightboxImg.src = element.src;
+        }
+
+        function closeLightbox() {
+            document.getElementById("myLightbox").style.display = "none";
+        }
+
+        // Close lightbox when clicking outside the image
+        document.getElementById("myLightbox").addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+    </script>
 </body>
 </html>
