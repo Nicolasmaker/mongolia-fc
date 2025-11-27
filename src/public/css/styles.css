@@ -59,7 +59,8 @@ body {
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 25px;
+    gap: 15px;
+    align-items: center;
 }
 
 /* Menú Hamburguesa (Oculto en PC) */
@@ -79,7 +80,7 @@ body {
 }
 
 /* Estilos Responsivos */
-@media (max-width: 768px) {
+@media (max-width: 1100px) {
     .menu-toggle {
         display: flex;
     }
@@ -97,6 +98,7 @@ body {
         transition: 0.4s ease;
         box-shadow: -5px 0 15px rgba(0,0,0,0.5);
         backdrop-filter: blur(10px);
+        gap: 2rem; /* Más espacio en móvil */
     }
 
     .nav-links.active {
@@ -117,9 +119,10 @@ body {
     text-decoration: none;
     font-weight: 600;
     text-transform: uppercase;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     transition: all 0.3s ease;
     position: relative;
+    white-space: nowrap; /* Evitar que el texto se rompa en dos líneas */
 }
 
 .nav-links a::after {
