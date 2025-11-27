@@ -133,18 +133,23 @@
 
     <script src="js/main.js"></script>
     <script>
+        const token = localStorage.getItem('token');
+
         // Función para eliminar partido
         window.deleteMatch = async (id) => {
             if(confirm('¿Estás seguro de que quieres eliminar este partido?')) {
                 try {
                     const response = await fetch(`/api/matches/${id}`, {
-                        method: 'DELETE'
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': token // Enviar token
+                        }
                     });
                     
                     if (response.ok) {
                         location.reload(); // Recargar para ver cambios
                     } else {
-                        alert('Error al eliminar el partido');
+                        alert('Error: No tienes permisos para eliminar');
                     }
                 } catch (error) {
                     console.error('Error:', error);
@@ -165,6 +170,11 @@
                     matchdayList.innerHTML = ''; // Limpiar estado vacío
                     
                     matches.forEach(match => {
+                        // Solo mostrar botón de eliminar si hay token (es admin)
+                        const deleteBtn = token 
+                            ? `<button class="btn-delete" onclick="deleteMatch('${match._id}')">🗑️ Eliminar</button>` 
+                            : '';
+
                         const matchCard = document.createElement('div');
                         matchCard.className = 'match-card';
                         matchCard.innerHTML = `
@@ -184,7 +194,7 @@
                                     📍 <span>${match.location}</span>
                                 </div>
                             </div>
-                            <button class="btn-delete" onclick="deleteMatch('${match._id}')">🗑️ Eliminar</button>
+                            ${deleteBtn}
                         `;
                         matchdayList.appendChild(matchCard);
                     });

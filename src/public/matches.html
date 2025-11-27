@@ -175,6 +175,25 @@
 
     <script src="js/main.js"></script>
     <script>
+        // Verificar si hay sesión iniciada
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+
+        // Botón de Cerrar Sesión (Agregar dinámicamente al nav)
+        const navLinks = document.querySelector('.nav-links');
+        const logoutLi = document.createElement('li');
+        logoutLi.innerHTML = '<a href="#" id="logoutBtn" style="color: #ff4444;">Salir</a>';
+        navLinks.appendChild(logoutLi);
+
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'index.html';
+        });
+
         document.getElementById('btnAddMatch').addEventListener('click', async () => {
             const date = document.getElementById('matchDate').value;
             const home = document.getElementById('matchHome').value;
@@ -199,7 +218,8 @@
                 const response = await fetch('/api/matches', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': token // Enviar token
                     },
                     body: JSON.stringify(match)
                 });
@@ -208,7 +228,7 @@
                     alert('Partido agregado correctamente');
                     window.location.href = 'matchday.html';
                 } else {
-                    alert('Error al guardar el partido');
+                    alert('Error al guardar: No tienes permisos o la sesión expiró');
                 }
             } catch (error) {
                 console.error('Error:', error);
