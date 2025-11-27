@@ -12,7 +12,7 @@ router.get('/status', welcomeMessage);
 
 // Rutas de Autenticación
 router.post('/auth/login', login);
-router.post('/auth/register', register);
+// router.post('/auth/register', register); // Registro público deshabilitado
 
 // Rutas de partidos
 router.get('/matches', getMatches); // Público
