@@ -89,9 +89,17 @@
     <script>
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            console.log("Intentando iniciar sesión...");
+            
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const errorMsg = document.getElementById('errorMsg');
+            const btnLogin = document.querySelector('.btn-login');
+
+            // Feedback visual
+            btnLogin.disabled = true;
+            btnLogin.textContent = 'Ingresando...';
+            errorMsg.style.display = 'none';
 
             try {
                 const response = await fetch('/api/auth/login', {
@@ -101,19 +109,26 @@
                 });
 
                 const data = await response.json();
+                console.log("Respuesta del servidor:", data);
 
                 if (response.ok) {
                     // Guardar token
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('user', data.user.nombre); // Guardamos el nombre
+                    console.log("Login exitoso, redirigiendo...");
                     window.location.href = 'matches.html';
                 } else {
                     errorMsg.style.display = 'block';
-                    errorMsg.textContent = data.message;
+                    errorMsg.textContent = data.message || 'Error desconocido';
+                    btnLogin.disabled = false;
+                    btnLogin.textContent = 'Ingresar';
                 }
             } catch (error) {
+                console.error("Error de conexión:", error);
                 errorMsg.style.display = 'block';
-                errorMsg.textContent = 'Error de conexión';
+                errorMsg.textContent = 'Error de conexión con el servidor';
+                btnLogin.disabled = false;
+                btnLogin.textContent = 'Ingresar';
             }
         });
     </script>
