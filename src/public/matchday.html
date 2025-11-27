@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matchday - Mongolia FC</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        .matchday-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .match-card {
+            background: linear-gradient(145deg, #1e1e1e, #252525);
+            border: 1px solid #333;
+            border-left: 5px solid var(--primary-color);
+            padding: 2rem;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .match-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .match-info {
+            text-align: center;
+        }
+
+        .match-teams {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--light-text);
+        }
+
+        .vs-badge {
+            background-color: var(--accent-color);
+            color: var(--dark-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .match-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            color: #aaa;
+            font-size: 0.9rem;
+            text-align: right;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        .btn-delete {
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 1.5rem;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn-delete:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">MONGOLIA FC</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="matches.html">Administrar Partidos</a></li>
+                <li><a href="matchday.html" style="color: var(--accent-color);">Matchday</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero" style="height: 40vh;">
+        <div class="hero-content">
+            <h1>MATCHDAY</h1>
+            <p>La jornada ha llegado. Aquí están los próximos encuentros.</p>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Próximos Encuentros</h2>
+            <div id="matchday-list" class="matchday-container">
+                <!-- Los partidos se cargarán aquí dinámicamente -->
+                <div class="empty-state">No hay partidos programados aún.</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Mongolia FC. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Función para eliminar partido
+        window.deleteMatch = async (id) => {
+            if(confirm('¿Estás seguro de que quieres eliminar este partido?')) {
+                try {
+                    const response = await fetch(`/api/matches/${id}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    if (response.ok) {
+                        location.reload(); // Recargar para ver cambios
+                    } else {
+                        alert('Error al eliminar el partido');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error de conexión');
+                }
+            }
+        };
+
+        // Script específico para cargar los partidos en Matchday
+        document.addEventListener('DOMContentLoaded', async () => {
+            const matchdayList = document.getElementById('matchday-list');
+            
+            try {
+                const response = await fetch('/api/matches');
+                const matches = await response.json();
+
+                if (matches.length > 0) {
+                    matchdayList.innerHTML = ''; // Limpiar estado vacío
+                    
+                    matches.forEach(match => {
+                        const matchCard = document.createElement('div');
+                        matchCard.className = 'match-card';
+                        matchCard.innerHTML = `
+                            <div class="match-teams">
+                                <span>${match.home}</span>
+                                <span class="vs-badge">VS</span>
+                                <span>${match.away}</span>
+                            </div>
+                            <div class="match-meta">
+                                <div class="meta-item">
+                                    📅 <span>${new Date(match.date).toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                                </div>
+                                <div class="meta-item">
+                                    ⏰ <span>${match.time}</span>
+                                </div>
+                                <div class="meta-item">
+                                    📍 <span>${match.location}</span>
+                                </div>
+                            </div>
+                            <button class="btn-delete" onclick="deleteMatch('${match._id}')">🗑️ Eliminar</button>
+                        `;
+                        matchdayList.appendChild(matchCard);
+                    });
+                }
+            } catch (error) {
+                console.error('Error cargando partidos:', error);
+                matchdayList.innerHTML = '<div class="empty-state">Error al cargar los partidos.</div>';
+            }
+        });
+    </script>
+</body>
+</html>

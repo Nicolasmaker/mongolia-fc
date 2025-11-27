@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partidos - Mongolia FC</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos específicos para la tabla de partidos */
+        .matches-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+
+        .matches-table th, .matches-table td {
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .matches-table th {
+            background-color: var(--primary-color);
+            color: white;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .matches-table tr:hover {
+            background-color: #252525;
+        }
+
+        .matches-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .match-date {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .match-vs {
+            font-weight: 900;
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        .team-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .result {
+            background-color: #333;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+
+        .btn-add {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background 0.3s;
+        }
+
+        .btn-add:hover {
+            background-color: #d92042;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">MONGOLIA FC</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="index.html#team">Equipo</a></li>
+                <li><a href="index.html#founders">Fundadores</a></li>
+                <li><a href="index.html#about">Sobre Nosotros</a></li>
+                <li><a href="matches.html" style="color: var(--accent-color);">Partidos</a></li>
+                <li><a href="index.html#contact">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Calendario de Partidos</h2>
+            
+            <div class="matches-container">
+                <table class="matches-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Local</th>
+                            <th></th>
+                            <th>Visitante</th>
+                            <th>Ubicación</th>
+                            <th>Hora</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="date" id="matchDate" class="date-select">
+                            </td>
+                            <td>
+                                <select id="matchHome" class="team-select">
+                                    <option value="Mongolia Rojo 🔴🔥">Mongolia Rojo 🔴🔥</option>
+                                    <option value="Mongolia Blanco ⚪⚡">Mongolia Blanco ⚪⚡</option>
+                                </select>
+                            </td>
+                            <td class="match-vs">VS</td>
+                            <td>
+                                <select id="matchAway" class="team-select">
+                                    <option value="Mongolia Blanco ⚪⚡" selected>Mongolia Blanco ⚪⚡</option>
+                                    <option value="Mongolia Rojo 🔴🔥">Mongolia Rojo 🔴🔥</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select id="matchLocation" class="location-select">
+                                    <option value="Maiclub">Maiclub</option>
+                                    <option value="La Araucana">La Araucana</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select id="matchTime" class="time-select">
+                                    <option value="09:00 AM">09:00 AM</option>
+                                    <option value="10:00 AM">10:00 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="12:00 PM">12:00 PM</option>
+                                    <option value="01:00 PM">01:00 PM</option>
+                                    <option value="02:00 PM">02:00 PM</option>
+                                    <option value="03:00 PM">03:00 PM</option>
+                                    <option value="04:00 PM">04:00 PM</option>
+                                    <option value="05:00 PM">05:00 PM</option>
+                                    <option value="06:00 PM">06:00 PM</option>
+                                    <option value="07:00 PM">07:00 PM</option>
+                                    <option value="08:00 PM">08:00 PM</option>
+                                    <option value="09:00 PM" selected>09:00 PM</option>
+                                    <option value="10:00 PM">10:00 PM</option>
+                                    <option value="11:00 PM">11:00 PM</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button id="btnAddMatch" class="btn-add">Agregar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Mongolia FC. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.getElementById('btnAddMatch').addEventListener('click', async () => {
+            const date = document.getElementById('matchDate').value;
+            const home = document.getElementById('matchHome').value;
+            const away = document.getElementById('matchAway').value;
+            const location = document.getElementById('matchLocation').value;
+            const time = document.getElementById('matchTime').value;
+
+            if (!date) {
+                alert('Por favor selecciona una fecha');
+                return;
+            }
+
+            const match = {
+                date,
+                home,
+                away,
+                location,
+                time
+            };
+
+            try {
+                const response = await fetch('/api/matches', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(match)
+                });
+
+                if (response.ok) {
+                    alert('Partido agregado correctamente');
+                    window.location.href = 'matchday.html';
+                } else {
+                    alert('Error al guardar el partido');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error de conexión');
+            }
+        });
+    </script>
+</body>
+</html>
