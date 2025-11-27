@@ -14,6 +14,7 @@ export const connectDB = async () => {
         console.log('✅ Conectado a MongoDB Atlas exitosamente');
     } catch (error) {
         console.error('❌ Error al conectar a MongoDB:', error);
-        process.exit(1);
+        // No matamos el proceso para que la web siga cargando
+        // process.exit(1); 
     }
 };

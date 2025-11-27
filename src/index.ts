@@ -6,8 +6,8 @@ import { connectDB } from './config/database';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Conectar a Base de Datos
-connectDB();
+// Conectar a Base de Datos (sin detener el servidor si falla)
+connectDB().catch(err => console.error('⚠️ La base de datos no conectó, pero el servidor sigue activo:', err));
 
 // Configuración básica
 app.use(express.json());
