@@ -91,7 +91,6 @@
                 <li><a href="index.html#team">Equipo</a></li>
                 <li><a href="index.html#founders">Fundadores</a></li>
                 <li><a href="index.html#about">Sobre Nosotros</a></li>
-                <li><a href="matches.html" style="color: var(--accent-color);">Partidos</a></li>
                 <li><a href="index.html#contact">Contacto</a></li>
             </ul>
         </div>
@@ -180,19 +179,6 @@
         if (!token) {
             window.location.href = 'login.html';
         }
-
-        // Botón de Cerrar Sesión (Agregar dinámicamente al nav)
-        const navLinks = document.querySelector('.nav-links');
-        const logoutLi = document.createElement('li');
-        logoutLi.innerHTML = '<a href="#" id="logoutBtn" style="color: #ff4444;">Salir</a>';
-        navLinks.appendChild(logoutLi);
-
-        document.getElementById('logoutBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            window.location.href = 'index.html';
-        });
 
         document.getElementById('btnAddMatch').addEventListener('click', async () => {
             const date = document.getElementById('matchDate').value;
