@@ -1,6 +1,34 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Mongolia FC Frontend Loaded ⚽');
 
+    // Navbar Logic (Login/Admin)
+    const navLinksContainer = document.querySelector('.nav-links');
+    const token = localStorage.getItem('token');
+    const userName = localStorage.getItem('user');
+
+    if (token && userName) {
+        // Usuario Logueado: Mostrar Admin y Logout
+        const adminLi = document.createElement('li');
+        adminLi.innerHTML = '<a href="matches.html" style="color: var(--accent-color);">Admin Partidos</a>';
+        navLinksContainer.appendChild(adminLi);
+
+        const logoutLi = document.createElement('li');
+        logoutLi.innerHTML = `<a href="#" id="logoutBtn" style="color: #ff4444;">Salir (${userName})</a>`;
+        navLinksContainer.appendChild(logoutLi);
+
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'index.html';
+        });
+    } else {
+        // Usuario No Logueado: Mostrar Login
+        const loginLi = document.createElement('li');
+        loginLi.innerHTML = '<a href="login.html" style="border: 1px solid var(--accent-color); padding: 5px 15px; border-radius: 20px;">Login</a>';
+        navLinksContainer.appendChild(loginLi);
+    }
+
     // Mobile Menu Logic
     const menuToggle = document.getElementById('mobile-menu');
     const navLinks = document.querySelector('.nav-links');

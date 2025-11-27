@@ -6,43 +6,52 @@ import jwt from 'jsonwebtoken';
 // Login
 export const login = async (req: Request, res: Response) => {
     try {
-        const { username, password } = req.body;
+        const { email, password } = req.body;
 
-        // Buscar usuario
-        const user = await User.findOne({ username });
-        if (!user) return res.status(400).json({ message: 'Usuario o contraseña incorrectos' });
+        // Buscar usuario por email
+        const user = await User.findOne({ email });
+        if (!user) return res.status(400).json({ message: 'Correo o contraseña incorrectos' });
 
         // Verificar contraseña
         const validPassword = await bcrypt.compare(password, user.password);
-        if (!validPassword) return res.status(400).json({ message: 'Usuario o contraseña incorrectos' });
+        if (!validPassword) return res.status(400).json({ message: 'Correo o contraseña incorrectos' });
 
         // Crear token
         const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET || 'secret');
 
-        res.header('Authorization', token).json({ token, username: user.username });
+        res.header('Authorization', token).json({ 
+            token, 
+            user: { nombre: user.nombre, email: user.email } 
+        });
     } catch (error) {
         res.status(500).json({ message: 'Error en el servidor' });
     }
 };
 
-// Crear Admin Inicial (Solo para uso interno/setup)
-export const createInitialAdmin = async (req: Request, res: Response) => {
+// Registro de Usuario
+export const register = async (req: Request, res: Response) => {
     try {
-        const exists = await User.findOne({ username: 'admin' });
-        if (exists) return res.status(400).json({ message: 'El admin ya existe' });
+        const { nombre, apellido, edad, email, password } = req.body;
+
+        // Validar si ya existe
+        const exists = await User.findOne({ email });
+        if (exists) return res.status(400).json({ message: 'El correo ya está registrado' });
 
         // Encriptar contraseña
         const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash('mongolia2025', salt);
+        const hashedPassword = await bcrypt.hash(password, salt);
 
-        const user = new User({
-            username: 'admin',
+        const newUser = new User({
+            nombre,
+            apellido,
+            edad,
+            email,
             password: hashedPassword
         });
 
-        await user.save();
-        res.json({ message: 'Admin creado exitosamente' });
+        await newUser.save();
+        res.status(201).json({ message: 'Usuario registrado exitosamente' });
     } catch (error) {
-        res.status(500).json({ error });
+        res.status(500).json({ message: 'Error al registrar usuario', error });
     }
 };
