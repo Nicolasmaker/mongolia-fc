@@ -96,8 +96,10 @@
                         <input type="text" id="title" required>
                     </div>
                     <div class="form-group">
-                        <label>URL de Imagen</label>
-                        <input type="url" id="imageUrl" placeholder="https://ejemplo.com/foto.jpg">
+                        <label>Imagen</label>
+                        <input type="file" id="imageFile" accept="image/*">
+                        <input type="hidden" id="imageUrl">
+                        <div id="preview" style="margin-top: 10px; max-width: 200px;"></div>
                     </div>
                     <div class="form-group">
                         <label>Contenido</label>
@@ -142,12 +144,30 @@
             });
         }
 
+        // Convertir imagen a Base64
+        document.getElementById('imageFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('imageUrl').value = e.target.result;
+                    document.getElementById('preview').innerHTML = `<img src="${e.target.result}" style="width: 100%; border-radius: 5px;">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
         // Publicar noticia
         document.getElementById('newsForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const title = document.getElementById('title').value;
             const content = document.getElementById('content').value;
             const imageUrl = document.getElementById('imageUrl').value;
+
+            if (!imageUrl) {
+                alert('Por favor selecciona una imagen');
+                return;
+            }
 
             try {
                 const response = await fetch('/api/news', {

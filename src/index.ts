@@ -7,7 +7,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Configuración básica
-app.use(express.json());
+app.use(express.json({ limit: '50mb' })); // Aumentar límite para imágenes Base64
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static(path.join(__dirname, 'public'))); // Carpeta para archivos públicos
 
 // Rutas
