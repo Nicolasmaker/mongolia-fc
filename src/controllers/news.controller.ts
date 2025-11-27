@@ -10,6 +10,16 @@ export const getNews = async (req: Request, res: Response) => {
     }
 };
 
+export const getNewsById = async (req: Request, res: Response) => {
+    try {
+        const news = await News.findById(req.params.id);
+        if (!news) return res.status(404).json({ message: 'Noticia no encontrada' });
+        res.json(news);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener noticia' });
+    }
+};
+
 export const createNews = async (req: Request, res: Response) => {
     try {
         const { title, content, imageUrl, imageUrl2 } = req.body;

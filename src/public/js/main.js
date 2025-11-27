@@ -35,67 +35,101 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Cargar Noticias
     const newsGrid = document.getElementById('news-grid'); // Home (1 noticia)
-    const newsPageGrid = document.getElementById('news-page-grid'); // News Page (3 noticias)
+    const newsPageGrid = document.getElementById('news-page-grid'); // News Page (3 noticias o 1 específica)
 
-    if (newsGrid || newsPageGrid) {
+    // Función auxiliar para renderizar tarjeta
+    const renderCard = (item, isFullPage = false, isClickable = false) => `
+        <div class="${isFullPage ? 'news-card-full' : 'card'}" 
+             style="${isClickable ? 'cursor: pointer;' : ''}"
+             ${isClickable ? `onclick="window.location.href='news.html?id=${item._id}'"` : ''}>
+            <div class="card-img-container" style="${item.imageUrl2 ? 'display: grid; grid-template-columns: 1fr 1fr; gap: 10px;' : ''}">
+                ${item.imageUrl ? `
+                <img src="${item.imageUrl}" alt="${item.title}" class="news-img" 
+                        style="width: 100%; height: ${isFullPage ? '400px' : '150px'}; object-fit: cover; border-radius: ${isFullPage ? '0' : '10px'}; cursor: pointer;" 
+                        onclick="event.stopPropagation(); openModal(this)">` : ''}
+                ${item.imageUrl2 ? `
+                <img src="${item.imageUrl2}" alt="${item.title}" class="news-img" 
+                        style="width: 100%; height: ${isFullPage ? '400px' : '150px'}; object-fit: cover; border-radius: ${isFullPage ? '0' : '10px'}; cursor: pointer;" 
+                        onclick="event.stopPropagation(); openModal(this)">` : ''}
+            </div>
+            <div class="${isFullPage ? 'news-content' : ''}">
+                <h3 class="${isFullPage ? 'news-title' : ''}">${item.title}</h3>
+                <p class="${isFullPage ? 'news-text' : ''}">${item.content}</p>
+                <small class="${isFullPage ? 'news-date' : ''}" style="${!isFullPage ? 'color: #666; display: block; margin-top: 1rem;' : ''}">
+                    ${new Date(item.date).toLocaleDateString()}
+                </small>
+            </div>
+        </div>
+    `;
+
+    if (newsGrid) {
+        // Lógica para Home: Solo la última noticia
         fetch('/api/news')
             .then(res => res.json())
             .then(news => {
                 if (news.length === 0) {
-                    const noNewsMsg = '<p style="text-align: center; width: 100%;">No hay noticias recientes.</p>';
-                    if (newsGrid) newsGrid.innerHTML = noNewsMsg;
-                    if (newsPageGrid) newsPageGrid.innerHTML = noNewsMsg;
+                    newsGrid.innerHTML = '<p style="text-align: center; width: 100%;">No hay noticias recientes.</p>';
                     return;
                 }
+                const latestNews = news[0];
+                // Renderizar tarjeta clickeable
+                newsGrid.innerHTML = renderCard(latestNews, false, true);
                 
-                // Función auxiliar para renderizar tarjeta
-                const renderCard = (item, isFullPage = false) => `
-                    <div class="${isFullPage ? 'news-card-full' : 'card'}">
-                        <div class="card-img-container" style="${item.imageUrl2 ? 'display: grid; grid-template-columns: 1fr 1fr; gap: 10px;' : ''}">
-                            ${item.imageUrl ? `
-                            <img src="${item.imageUrl}" alt="${item.title}" class="news-img" 
-                                 style="width: 100%; height: ${isFullPage ? '400px' : '150px'}; object-fit: cover; border-radius: ${isFullPage ? '0' : '10px'}; cursor: pointer;" 
-                                 onclick="openModal(this)">` : ''}
-                            ${item.imageUrl2 ? `
-                            <img src="${item.imageUrl2}" alt="${item.title}" class="news-img" 
-                                 style="width: 100%; height: ${isFullPage ? '400px' : '150px'}; object-fit: cover; border-radius: ${isFullPage ? '0' : '10px'}; cursor: pointer;" 
-                                 onclick="openModal(this)">` : ''}
-                        </div>
-                        <div class="${isFullPage ? 'news-content' : ''}">
-                            <h3 class="${isFullPage ? 'news-title' : ''}">${item.title}</h3>
-                            <p class="${isFullPage ? 'news-text' : ''}">${item.content}</p>
-                            <small class="${isFullPage ? 'news-date' : ''}" style="${!isFullPage ? 'color: #666; display: block; margin-top: 1rem;' : ''}">
-                                ${new Date(item.date).toLocaleDateString()}
-                            </small>
-                        </div>
-                    </div>
-                `;
-
-                // Lógica para Home: Solo la última noticia
-                if (newsGrid) {
-                    const latestNews = news[0];
-                    newsGrid.innerHTML = renderCard(latestNews);
-                    
-                    if (news.length > 1) {
-                        const viewMoreBtn = document.createElement('div');
-                        viewMoreBtn.style.textAlign = 'center';
-                        viewMoreBtn.style.marginTop = '1rem';
-                        viewMoreBtn.innerHTML = `<a href="news.html" class="btn-primary" style="padding: 10px 20px; font-size: 0.9rem;">Ver más noticias</a>`;
-                        newsGrid.appendChild(viewMoreBtn);
-                    }
-                }
-
-                // Lógica para News Page: Últimas 3 noticias
-                if (newsPageGrid) {
-                    const latest3 = news.slice(0, 3);
-                    newsPageGrid.innerHTML = latest3.map(item => renderCard(item, true)).join('');
+                if (news.length > 1) {
+                    const viewMoreBtn = document.createElement('div');
+                    viewMoreBtn.style.textAlign = 'center';
+                    viewMoreBtn.style.marginTop = '1rem';
+                    viewMoreBtn.innerHTML = `<a href="news.html" class="btn-primary" style="padding: 10px 20px; font-size: 0.9rem;">Ver más noticias</a>`;
+                    newsGrid.appendChild(viewMoreBtn);
                 }
             })
             .catch(err => {
                 console.error('Error cargando noticias:', err);
-                if (newsGrid) newsGrid.innerHTML = '<p>Error al cargar noticias.</p>';
-                if (newsPageGrid) newsPageGrid.innerHTML = '<p>Error al cargar noticias.</p>';
+                newsGrid.innerHTML = '<p>Error al cargar noticias.</p>';
             });
+    }
+
+    if (newsPageGrid) {
+        // Lógica para News Page: Verificar si hay ID en URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const newsId = urlParams.get('id');
+
+        if (newsId) {
+            // Cargar noticia específica
+            fetch(`/api/news/${newsId}`)
+                .then(res => {
+                    if (!res.ok) throw new Error('Noticia no encontrada');
+                    return res.json();
+                })
+                .then(item => {
+                    newsPageGrid.innerHTML = `
+                        <div style="margin-bottom: 2rem;">
+                            <a href="news.html" style="color: var(--accent-color); text-decoration: none; font-weight: bold;">&larr; Volver a noticias</a>
+                        </div>
+                        ${renderCard(item, true)}
+                    `;
+                })
+                .catch(err => {
+                    console.error(err);
+                    newsPageGrid.innerHTML = '<p style="text-align: center;">Noticia no encontrada.</p>';
+                });
+        } else {
+            // Cargar últimas 3 noticias
+            fetch('/api/news')
+                .then(res => res.json())
+                .then(news => {
+                    if (news.length === 0) {
+                        newsPageGrid.innerHTML = '<p style="text-align: center; width: 100%;">No hay noticias recientes.</p>';
+                        return;
+                    }
+                    const latest3 = news.slice(0, 3);
+                    newsPageGrid.innerHTML = latest3.map(item => renderCard(item, true)).join('');
+                })
+                .catch(err => {
+                    console.error('Error cargando noticias:', err);
+                    newsPageGrid.innerHTML = '<p>Error al cargar noticias.</p>';
+                });
+        }
     }
 
     // Mobile Menu Logic
